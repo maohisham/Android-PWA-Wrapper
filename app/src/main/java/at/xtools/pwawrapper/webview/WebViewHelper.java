@@ -167,6 +167,19 @@ public class WebViewHelper {
                     }
                 }
             }
+            //Handle if request comes from same hostname. If not, it may be an intent
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+
+                if((String.valueOf(request.getUrl())).contains(Constants.WEBAPP_HOST)) {
+                    view.loadUrl(String.valueOf(request.getUrl()));
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
+                    view.getContext().startActivity(intent);
+                }
+
+                return true;
+            }
         });
     }
 
@@ -182,9 +195,9 @@ public class WebViewHelper {
     // show "no app found" dialog
     private void showNoAppDialog(Activity thisActivity) {
         new AlertDialog.Builder(thisActivity)
-            .setTitle(R.string.noapp_heading)
-            .setMessage(R.string.noapp_description)
-            .show();
+                .setTitle(R.string.noapp_heading)
+                .setMessage(R.string.noapp_description)
+                .show();
     }
     // handle load errors
     private void handleLoadError(int errorCode) {
@@ -207,20 +220,20 @@ public class WebViewHelper {
         if (!url.startsWith(Constants.WEBAPP_URL)) {
             // stop loading
             // stopping only would cause the PWA to freeze, need to reload the app as a workaround
-            view.stopLoading();
-            view.reload();
+//            view.stopLoading();
+//            view.reload();
 
             // open external URL in Browser/3rd party apps instead
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                if (intent.resolveActivity(activity.getPackageManager()) != null) {
-                    activity.startActivity(intent);
-                } else {
-                    showNoAppDialog(activity);
-                }
-            } catch (Exception e) {
-                showNoAppDialog(activity);
-            }
+//            try {
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                if (intent.resolveActivity(activity.getPackageManager()) != null) {
+//                    activity.startActivity(intent);
+//                } else {
+//                    showNoAppDialog(activity);
+//                }
+//            } catch (Exception e) {
+//                showNoAppDialog(activity);
+//            }
             // return value for shouldOverrideUrlLoading
             return true;
         } else {

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                         intentText = intentUri.toString();
                     }
                     // Load up the URL specified in the Intent
-                    if (!intentText.equals("")) {
+                    if (!intentText.equals("") || (!intentText.contains(Constants.WEBAPP_URL))) {
                         intentHandled = true;
                         webViewHelper.loadIntentUrl(intentText);
                     }
@@ -55,19 +55,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        webViewHelper.onPause();
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        webViewHelper.onResume();
-        // retrieve content from cache primarily if not connected
-        webViewHelper.forceCacheIfOffline();
-        super.onResume();
-    }
+//    @Override
+//    protected void onPause() {
+//        webViewHelper.onPause();
+//        super.onPause();
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        webViewHelper.onResume();
+//        // retrieve content from cache primarily if not connected
+//        webViewHelper.forceCacheIfOffline();
+//        super.onResume();
+//    }
 
     // Handle back-press in browser
     @Override
