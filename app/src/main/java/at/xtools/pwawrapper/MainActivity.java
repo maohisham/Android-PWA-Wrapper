@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import at.xtools.pwawrapper.ui.UIManager;
 import at.xtools.pwawrapper.webview.WebViewHelper;
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private UIManager uiManager;
     private WebViewHelper webViewHelper;
     private boolean intentHandled = false;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,24 +57,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    protected void onPause() {
-//        webViewHelper.onPause();
-//        super.onPause();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        webViewHelper.onResume();
-//        // retrieve content from cache primarily if not connected
-//        webViewHelper.forceCacheIfOffline();
-//        super.onResume();
-//    }
+    @Override
+    protected void onPause() {
+        webViewHelper.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        webViewHelper.onResume();
+        // retrieve content from cache primarily if not connected
+        webViewHelper.forceCacheIfOffline();
+        super.onResume();
+    }
 
     // Handle back-press in browser
     @Override
     public void onBackPressed() {
-        if (!webViewHelper.goBack()) {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
             super.onBackPressed();
         }
     }
